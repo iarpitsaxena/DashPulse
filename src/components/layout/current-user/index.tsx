@@ -63,7 +63,7 @@ export const CurrentUser = () => {
       >
         <CustomAvatar
           name={user?.name}
-          src={user?.avatarUrl}
+          src={""}
           size="default"
           style={{ cursor: "pointer" }}
         />

@@ -5,10 +5,11 @@ import { authCredentials } from "@/providers";
 export const LoginPage = () => {
   return (
     <AuthPage
-      type="login"
-      registerLink={false}
-      forgotPasswordLink={false}
-      title={<ThemedTitleV2 collapsed={false} text="Refine Project" />}
+      type="register"
+      // registerLink={false}
+      // forgotPasswordLink={false}
+      loginLink={true}
+      title={<ThemedTitleV2 collapsed={false} text="DashPulse" />}
       formProps={{
         initialValues: authCredentials,
       }}

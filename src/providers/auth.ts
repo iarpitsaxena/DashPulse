@@ -8,7 +8,7 @@ import { API_URL, dataProvider } from "./data";
  * For demo purposes and to make it easier to test the app, you can use the following credentials:
  */
 export const authCredentials = {
-  email: "michael.scott@dundermifflin.com",
+  email: "arpitsaxena@gmail.com",
   password: "demodemo",
 };
 
@@ -128,6 +128,74 @@ export const authProvider: AuthProvider = {
       return data.me;
     } catch (error) {
       return undefined;
+    }
+  },
+  register: async ({ email, password }) => {
+    try {
+      const { data } = await dataProvider.custom({
+        url: API_URL,
+        method: "post",
+        headers: {},
+        meta: {
+          variables: { email, password },
+          rawQuery: `
+            mutation Register($email: String!, $password: String!) {
+              register(registerInput: {
+                email: $email,
+                password: $password
+              }) {
+                id
+                email
+              }
+            }
+          `,
+        },
+      });
+
+      // After successful registration, log the user in
+      if (data?.register) {
+        // Perform login
+        const { data: loginData } = await dataProvider.custom({
+          url: API_URL,
+          method: "post",
+          headers: {},
+          meta: {
+            variables: { email },
+            rawQuery: `
+              mutation Login($email: String!) {
+                login(loginInput: {
+                  email: $email
+                }) {
+                  accessToken
+                }
+              }
+            `,
+          },
+        });
+
+        localStorage.setItem("access_token", loginData.login.accessToken);
+
+        return {
+          success: true,
+          redirectTo: "/",
+        };
+      }
+
+      return {
+        success: false,
+        error: {
+          message: "Register failed",
+          name: "Invalid email or password",
+        },
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: {
+          message: "Register failed",
+          name: "Invalid email or password",
+        },
+      };
     }
   },
 };

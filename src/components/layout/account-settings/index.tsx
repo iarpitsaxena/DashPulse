@@ -99,7 +99,7 @@ export const AccountSettings = ({ opened, setOpened, userId }: Props) => {
           <Form {...formProps} layout="vertical">
             <CustomAvatar
               shape="square"
-              src={avatarUrl}
+              src={""}
               name={getNameInitials(name || "")}
               style={{
                 width: 96,
